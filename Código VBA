@@ -1,0 +1,200 @@
+ub Botão3_Clique()
+
+Dim WP As Workbook 'Pasta de Trabalho Atual'
+Dim WS As Workbook 'Nova Pasta de Trabalha'
+Dim WPSheet As Worksheet 'Planilha atual'
+Dim rngWP As Range 'Região com dados da plan atual'
+Dim vals As Variant
+
+'Definição das Planilhas Trabalhadas'
+
+Set WP = Workbooks("Livre x Cativo - Modelo - V2.0 - Macro.xlsm")
+Set WPSheet = WP.Sheets("Inputs")
+Set WPSheetV = WP.Sheets("Verde")
+Set WPSheetA = WP.Sheets("Azul")
+pasta = Application.ThisWorkbook.Path & "\ROI - Modelo.xlsx"
+Set WS = Workbooks.Open(pasta)
+
+'Envio dos Dados para a aba Estudo'
+
+WS.Sheets(2).Cells(15, 4).Value = WPSheet.Cells(14, 2).Value
+
+WS.Sheets(2).Cells(10, 4).Value = WPSheet.Cells(64, 2).Value
+
+If WPSheet.Cells(5, 2) = "Não" Then
+
+WS.Sheets(2).Cells(4, 5).Value = WPSheet.Cells(17, 2).Value
+
+Else
+
+WS.Sheets(2).Cells(4, 5).Value = WPSheet.Cells(38, 2).Value
+
+End If
+
+WS.Sheets(1).Range("A1:Q20").Clear
+
+'Envio da Tabela para a aba cálculos'
+
+If WPSheet.Cells(3, 2) = "Verde" Then
+    If WPSheet.Cells(5, 2) = "Não" Then        'Verde Sem Gerador'
+        WPSheetV.Range("Q11:Q17").Copy
+        WPSheetV.Range("Q60:Q66").PasteSpecial xlPasteValues
+        WPSheetV.Range("R11:R16").Copy
+        WPSheetV.Range("R60:R65").PasteSpecial xlPasteValues
+        WPSheetV.Range("W11:W17").Copy
+        WPSheetV.Range("W60:W66").PasteSpecial xlPasteValues
+        WPSheetV.Range("X11:X14").Copy
+        WPSheetV.Range("X60:X63").PasteSpecial xlPasteValues
+        WPSheetV.Range("O58:Z73").Copy
+                    
+        
+    ElseIf WPSheet.Cells(37, 2) = "Não" Then  'Verde com gerador descontinuado'
+        WPSheetV.Range("D38:D45").Copy
+        WPSheetV.Range("D78:D85").PasteSpecial xlPasteValues
+        WPSheetV.Range("E38:E43").Copy
+        WPSheetV.Range("E78:E83").PasteSpecial xlPasteValues
+        WPSheetV.Range("D45:F45").Copy
+        WPSheetV.Range("D85:F85").PasteSpecial xlPasteValues
+        WPSheetV.Range("J38:J45").Copy
+        WPSheetV.Range("J78:J85").PasteSpecial xlPasteValues
+        WPSheetV.Range("K38:K41").Copy
+        WPSheetV.Range("K78:K81").PasteSpecial xlPasteValues
+        WPSheetV.Range("B76:M91").Copy
+        
+    Else                                       'Verde com gerador no ACL'
+        WPSheetV.Range("Q38:S45").Copy
+        WPSheetV.Range("Q80:S87").PasteSpecial xlPasteValues
+        WPSheetV.Range("W38:Y46").Copy
+        WPSheetV.Range("W80:Y88").PasteSpecial xlPasteValues
+        WPSheetV.Range("O78:Z94").Copy
+        
+    End If
+Else
+    If WPSheet.Cells(5, 2) = "Não" Then         'Azul Sem Gerador'
+        WPSheetA.Range("Q11:S18").Copy
+        WPSheetA.Range("Q67:S74").PasteSpecial xlPasteValues
+        WPSheetA.Range("W11:Y19").Copy
+        WPSheetA.Range("W67:Y75").PasteSpecial xlPasteValues
+        WPSheetA.Range("O65:Z81").Copy
+        
+    ElseIf WPSheet.Cells(36, 2) = "Não" Then    'Azul com gerador descontinuado'
+        WPSheetA.Range("D38:F46").Copy
+        WPSheetA.Range("D66:F74").PasteSpecial xlPasteValues
+        WPSheetA.Range("J38:L46").Copy
+        WPSheetA.Range("J66:L74").PasteSpecial xlPasteValues
+        WPSheetA.Range("B64:M80").Copy
+        
+       
+    Else                                        'Verde com gerador no ACL'
+        WPSheetA.Range("Q38:S46").Copy
+        WPSheetA.Range("Q89:S97").PasteSpecial xlPasteValues
+        WPSheetA.Range("W38:Y47").Copy
+        WPSheetA.Range("W89:Y98").PasteSpecial xlPasteValues
+        WPSheetA.Range("O87:Z104").Copy
+        
+    End If
+End If
+
+'Colagem da Tabela na Planilha do ROI'
+
+'WS.Sheets(1).Cells(2, 2).Select'
+Application.DisplayAlerts = False
+WS.Sheets(1).Range("B2").PasteSpecial
+Application.DisplayAlerts = False
+
+'Envio dos Preços para a aba cálculos'
+
+If WPSheet.Cells(12, 2) = "I50" Then
+
+    If WPSheet.Cells(14, 2) = "2" Then
+        WPSheet.Range("K3:L5").Copy
+    
+    ElseIf WPSheet.Cells(14, 2) = "3" Then
+        WPSheet.Range("K3:L6").Copy
+    
+    ElseIf WPSheet.Cells(14, 2) = "4" Then
+        WPSheet.Range("K3:L7").Copy
+        
+    ElseIf WPSheet.Cells(14, 2) = "5" Then
+        WPSheet.Range("K3:L8").Copy
+    
+    Else
+        WPSheet.Range("K3:L9").Copy
+    End If
+
+ElseIf WPSheet.Cells(12, 2) = "Convencional" Then
+    
+    If WPSheet.Cells(14, 2) = "2" Then
+        WPSheet.Range("M3:N5").Copy
+    
+    ElseIf WPSheet.Cells(14, 2) = "3" Then
+        WPSheet.Range("M3:N6").Copy
+    
+    ElseIf WPSheet.Cells(14, 2) = "4" Then
+        WPSheet.Range("M3:N7").Copy
+        
+    ElseIf WPSheet.Cells(14, 2) = "5" Then
+        WPSheet.Range("M3:N8").Copy
+    
+    Else
+        WPSheet.Range("M3:N9").Copy
+    End If
+    
+Else
+    If WPSheet.Cells(14, 2) = "2" Then
+        WPSheet.Range("O3:P5").Copy
+    
+    ElseIf WPSheet.Cells(14, 2) = "3" Then
+        WPSheet.Range("O3:P6").Copy
+    
+    ElseIf WPSheet.Cells(14, 2) = "4" Then
+        WPSheet.Range("O3:P7").Copy
+        
+    ElseIf WPSheet.Cells(14, 2) = "5" Then
+        WPSheet.Range("O3:P8").Copy
+    
+    Else
+        WPSheet.Range("O3:P9").Copy
+    End If
+End If
+
+'Colagem do Preços na Planilha do ROI'
+
+'WS.Sheets(1).Cells(4, 15).Select'
+Application.DisplayAlerts = False
+WS.Sheets(1).Range("N2").PasteSpecial
+Application.DisplayAlerts = False
+
+'Colocando Borda nos preços
+
+With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        '.Weight = xlThick'
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        '.Weight = xlThick'
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        '.Weight = xlThick'
+    End With
+    With Selection.Borders(xlEdgeRight)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        '.Weight = xlThick'
+    End With
+
+
+Application.DisplayAlerts = False
+WS.Save
+'WS.Close'
+
+End Sub
